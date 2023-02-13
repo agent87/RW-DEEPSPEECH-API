@@ -1,2 +1,7 @@
+git+https://github.com/coqui-ai/TTS@0910cb76bcd85df56bf43654bb31427647cdfd0d#egg=TTS
 fastapi==0.89.1
 uvicorn==0.20.0
+python-multipart
+nemo_toolkit[asr]
+pydub
+pyaudioconvert
