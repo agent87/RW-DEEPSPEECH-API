@@ -18,6 +18,9 @@ class transcriber:
         #convert the audio file
         self.convert_wav_to_16bit_mono()
 
+        #Transcribe
+        self.transcription = self.transcribe()
+
     def save_audio(self):
         self.file_id = len(os.listdir('stt/sounds/'))
         with open(f"stt/sounds/sound-{self.file_id}.wav", "wb") as audio_file:
@@ -27,17 +30,15 @@ class transcriber:
 
     def convert_wav_to_16bit_mono(self):
         try:
-            file_path = f"stt/sounds/soundsound-{self.file_id}.wav"
+            file_path = f"stt/sounds/sound-{self.file_id}.wav"
             pac.convert_wav_to_16bit_mono(file_path,file_path)
-            print("Converted")
             return True
         except FileNotFoundError:
-            print("cant")
             return False
         
     def transcribe(self):
         try:
-            file_path = self.workdir + f"sound-{self.file_id}.wav"
+            file_path = f"stt/sounds/sound-{self.file_id}.wav"
             result= hf_model.transcribe([file_path])
             return result[0]
         except FileNotFoundError:
