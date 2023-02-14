@@ -24,12 +24,7 @@ def get_token(request: Request):
 
 @api.post("/transcribe")
 async def transcribe_speech(file: bytes = File()):
-    # speech  = transcriber(file)
-   
-    async def create_file(file: bytes = File()):
-        with open("file.wav", "wb") as f:
-         f.write(file)
-       
+    speech  = transcriber(file)
 
     # Convert Speech to Text
     return {"sentences": speech.transcription}
