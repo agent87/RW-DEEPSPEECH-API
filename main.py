@@ -23,10 +23,9 @@ def get_token(request: Request):
 
 
 @api.post("/transcribe")
-async def transcribe_speech(file: bytes = File()):
-    speech  = transcriber(file)
+async def transcribe_speech(audio_bytes: bytes = File()):
+    speech  = transcriber(audio_bytes)
 
-    # Convert Speech to Text
     return {"sentences": speech.transcription}
 
 #Text to speech path
@@ -36,7 +35,6 @@ async def tts(request: Request, text : Text) -> str:
     file_id : int = len(os.listdir("TTS/sounds")) + 1
     #Infer the text
     os.system(f'tts --text "{text}" --model_path TTS/model.pth --encoder_path TTS/SE_checkpoint.pth.tar --encoder_config_path TTS/config_se.json --config_path TTS/config.json --speakers_file_path TTS/speakers.pth --speaker_wav TTS/conditioning_audio.wav --out_path TTS/sounds/sound-{file_id}.wav')
-    
     return FileResponse(f"TTS/sounds/sound-{file_id}.wav", media_type="audio/wav")
 
 
