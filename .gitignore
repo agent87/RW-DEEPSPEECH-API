@@ -133,3 +133,5 @@ tts/
 
 
 *.wav
+bingo.py
+*.ipynb

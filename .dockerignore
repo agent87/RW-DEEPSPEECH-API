@@ -130,3 +130,8 @@ dmypy.json
 
 
 tts/
+
+
+*.wav
+bingo.py
+*.ipynb

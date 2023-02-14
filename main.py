@@ -3,7 +3,7 @@ from fastapi.responses import FileResponse
 from tts.generator import generator
 from pydantic import BaseModel
 import os
-
+import aiofiles
 from stt.transcribe import transcriber
 
 api = FastAPI()  #instance
@@ -23,8 +23,13 @@ def get_token(request: Request):
 
 
 @api.post("/transcribe")
-async def transcribe_speech(audio: bytes = File()):
-    speech  = transcriber(audio)
+async def transcribe_speech(file: bytes = File()):
+    # speech  = transcriber(file)
+   
+    async def create_file(file: bytes = File()):
+        with open("file.wav", "wb") as f:
+         f.write(file)
+       
 
     # Convert Speech to Text
     return {"sentences": speech.transcription}
