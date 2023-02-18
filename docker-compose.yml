@@ -1,2 +1,37 @@
-version: '3.7'
+version: '3'
 
+services:
+  api:
+    build:
+      context: .
+    container_name: DEEPSPEECH_API
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    env_file:
+      - "./.env"
+    environment:
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_COLLECTION=${MONGO_COLLECTION}
+    networks:
+      - reverse-proxy
+  mongo:
+    image: mongo:latest
+    container_name: MONGO_DB
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=myuser
+      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+    networks:
+      - reverse-proxy
+
+
+networks:
+  reverse-proxy:
+    external: true

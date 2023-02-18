@@ -2,7 +2,7 @@ git+https://github.com/coqui-ai/TTS@0910cb76bcd85df56bf43654bb31427647cdfd0d#egg
 fastapi==0.89.1
 uvicorn==0.20.0
 python-multipart==0.0.5
-nemo_toolkit[asr]=1.11.0
+nemo_toolkit[asr]
 pydub==0.25.1
 pyaudioconvert==0.0.5
 pytest==7.2.1
