@@ -72,13 +72,13 @@ def get_token(request: Request):
 @api.post("/transcribe")
 async def transcribe_speech(audio_bytes: bytes = File()):
     #log the request
-    log =  logger("transcription")
+    #log =  logger("transcription")
     #initiate the transcription
     speech  = transcriber(audio_bytes)
     #update the log
-    log.update(total_words=len(speech.transcription), text=speech.transcription)
+    #log.update(total_words=len(speech.transcription), text=speech.transcription)
     #commit the log
-    log.commit_to_db()
+    #log.commit_to_db()
 
     return {"sentences": speech.transcription}
 
