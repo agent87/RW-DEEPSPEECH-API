@@ -132,8 +132,13 @@ dmypy.json
 stt/sounds 
 
 #
-tts
+
 tts/sounds
+tts/*.pth 
+tts/*.tar
+tts/*.json
+tts/*.wav
+tts/.gitattributes
 
 
 *.wav

@@ -129,7 +129,12 @@ dmypy.json
 .pyre/
 
 
-tts/
+tts/*.pth 
+tts/*.tar
+tts/*.json
+tts/*.wav
+tts/.gitattributes
+
 
 
 *.wav

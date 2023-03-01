@@ -7,3 +7,4 @@ pydub==0.25.1
 pyaudioconvert==0.0.5
 pytest==7.2.1
 httpx==0.23.3
+websockets==10.4

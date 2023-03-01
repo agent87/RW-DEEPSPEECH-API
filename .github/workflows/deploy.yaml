@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     runs-on:
-      - backend
+      - self-hosted
 
     steps:
       - uses: actions/checkout@v3
