@@ -18,8 +18,6 @@ services:
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_COLLECTION=${MONGO_COLLECTION}
-    networks:
-      - reverse-proxy
   mongo:
     image: mongo:latest
     container_name: MONGO_DB
@@ -28,10 +26,4 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=myuser
       - MONGO_INITDB_ROOT_PASSWORD=mypassword
-    networks:
-      - reverse-proxy
 
-
-networks:
-  reverse-proxy:
-    external: true

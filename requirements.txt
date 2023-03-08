@@ -8,3 +8,4 @@ pyaudioconvert==0.0.5
 pytest==7.2.1
 httpx==0.23.3
 websockets==10.4
+pymongo==4.3.3

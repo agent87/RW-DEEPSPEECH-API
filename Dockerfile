@@ -3,11 +3,11 @@ FROM python:3.10.9
 #Create and make the API folder the working directory
 WORKDIR /usr/src/app
 
-#Copy all the files
-COPY . . 
-
 #clone the kinyarwanda tts repo into the tts folder
 RUN git clone https://huggingface.co/DigitalUmuganda/Kinyarwanda_YourTTS tts
+
+#Copy all the files
+COPY . . 
 
 #create a temp folder to store the audio files
 RUN mkdir tts/sounds
