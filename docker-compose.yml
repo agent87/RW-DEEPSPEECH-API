@@ -23,7 +23,12 @@ services:
     container_name: MONGO_DB
     ports:
       - "27017:27017"
+    env_file:
+      - "./.env"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=myuser
-      - MONGO_INITDB_ROOT_PASSWORD=mypassword
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+networks:
+  my-network:
+    driver: bridge
 
