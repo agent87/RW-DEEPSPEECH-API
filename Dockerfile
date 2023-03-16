@@ -1,7 +1,7 @@
 FROM python:3.10.9
 
 #Create and make the API folder the working directory
-WORKDIR /usr/src/app
+WORKDIR /api
 
 #clone the kinyarwanda tts repo into the tts folder
 RUN git clone https://huggingface.co/DigitalUmuganda/Kinyarwanda_YourTTS tts
@@ -31,5 +31,5 @@ RUN apt-get update && cat packages.txt | xargs apt-get install -y
 EXPOSE 8000
 
 #Run the app
-CMD ["uvicorn", "main:api", "--host=0.0.0.0", "--port=8000"]
+CMD ["uvicorn", "main:api", "--host=0.0.0.0", "--port=8000", "--reload"]
 

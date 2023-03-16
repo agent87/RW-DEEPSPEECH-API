@@ -36,8 +36,6 @@ class AudioBytes(BaseModel):
 
 
 
-
-
 @api.post('/register') #route
 def register(request: Request): #serving function
     return "User Registration Endpoint"

@@ -1,20 +1,3 @@
-{
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        
-        {
-            "name": "Python: FastAPI",
-            "type": "python",
-            "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "main:api"
-            ],
-            "jinja": true,
-            "justMyCode": true
-        }
-    ]
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:6ba6cb48c41858f6384eb2e83da5023d6acaa9b1619aecf53a635c9b23dfd1fb
+size 544
