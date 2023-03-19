@@ -1,5 +1,6 @@
 import os
 from pymongo import MongoClient
+import pymongo
 from pydantic import BaseModel
 from datetime import datetime
 import uuid
@@ -29,7 +30,10 @@ class logger:
         self.log['duration'] = time()
 
     def commit_to_db(self, client):
-        client[db.database][db.collection].insert_one(self.log)
+        try:
+            client[db.database][db.collection].insert_one(self.log)
+        except pymongo.errors.ServerSelectionTimeoutError:
+            pass
 
     def update(self, total_words:str = None, audio_size:int = None, file_name:str = None, text:str = None):
         self.log['duration'] = time() - self.log['duration']

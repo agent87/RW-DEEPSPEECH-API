@@ -5,7 +5,7 @@ import os
 from pymongo import MongoClient
 #Import packages
 from stt.transcribe import transcriber
-#from tts.generator import generator
+from tts.generator import generate
 from utils.model import logger
 
 
@@ -36,20 +36,20 @@ class AudioBytes(BaseModel):
 
 
 
-@api.post('/register') #route
-def register(request: Request): #serving function
-    return "User Registration Endpoint"
+# @api.post('/register') #route
+# def register(request: Request): #serving function
+#     return "User Registration Endpoint"
 
 
-@api.post('/token') 
-def get_token(request: Request):
-    return "Here is your token"
+# @api.post('/token') 
+# def get_token(request: Request):
+#     return "Here is your token"
 
 
 @api.post("/transcribe")
 async def transcribe_speech(audio_bytes: bytes = File()):
     #log the request
-    log =  logger("stt")
+    log =  logger("stt", "http")
     #initiate the transcription
     speech  = transcriber(audio_bytes)
     #update the log
@@ -67,7 +67,7 @@ async def tts(request: Request, text: Text) -> FileResponse:
     The generated audio file is returned as a response.
     """
     # Initialize the logger
-    log = logger("tts")
+    log = logger("tts", "http")
 
     # Extract the text from the input
     text = text.text
@@ -91,35 +91,35 @@ async def tts(request: Request, text: Text) -> FileResponse:
 
 #WebSocket Section
 
-@api.websocket("/ws/transcribe")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        audio_bytes = await websocket.receive_json(AudioBytes)
-        # Process the received audio bytes here
-        # Example: write the audio bytes to a file
-        with open("audio.wav", "ab") as f:
-            f.write(audio_bytes.data)
+# @api.websocket("/ws/transcribe")
+# async def websocket_endpoint(websocket: WebSocket):
+#     await websocket.accept()
+#     while True:
+#         audio_bytes = await websocket.receive_json(AudioBytes)
+#         # Process the received audio bytes here
+#         # Example: write the audio bytes to a file
+#         with open("audio.wav", "ab") as f:
+#             f.write(audio_bytes.data)
 
 
-@api.websocket("/ws/generate")
-async def websocket_endpoint(websocket: WebSocket):
-    """
-    This function creates a WebSocket endpoint that accepts JSON messages containing a "text" field.
-    If the length of the "text" field exceeds 50 characters, it sends a message back to the client indicating that the data is too large.
-    Otherwise, it sends back the message text.
-    """
-    await websocket.accept()
-    while True:
-        try:
-            data = await websocket.receive_json()
-        except websocket.WebSocketDisconnect:
-            break
-        text = data.get("text", "")
-        if len(text) > 50:
-            await websocket.send_text("Data exceeds specified limit of 50 characters.")
-        else:
-            await websocket.send_text(f"Message text was: {text}")
+# @api.websocket("/ws/generate")
+# async def websocket_endpoint(websocket: WebSocket):
+#     """
+#     This function creates a WebSocket endpoint that accepts JSON messages containing a "text" field.
+#     If the length of the "text" field exceeds 50 characters, it sends a message back to the client indicating that the data is too large.
+#     Otherwise, it sends back the message text.
+#     """
+#     await websocket.accept()
+#     while True:
+#         try:
+#             data = await websocket.receive_json()
+#         except websocket.WebSocketDisconnect:
+#             break
+#         text = data.get("text", "")
+#         if len(text) > 50:
+#             await websocket.send_text("Data exceeds specified limit of 50 characters.")
+#         else:
+#             await websocket.send_text(f"Message text was: {text}")
 
 
 

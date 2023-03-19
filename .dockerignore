@@ -134,13 +134,9 @@ stt/sounds
 #
 
 tts/sounds
-tts/*.pth 
-tts/*.tar
-tts/*.json
-tts/*.wav
 tts/.gitattributes
 
 
-*.wav
+sound*.wav
 bingo.py
 *.ipynb
