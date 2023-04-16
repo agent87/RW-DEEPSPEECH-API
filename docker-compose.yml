@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  api:
+  stt:
     build:
-      context: .
+      context: stt/.
     container_name: DEEPSPEECH_API
     ports:
       - "8000:8000"
@@ -19,7 +19,26 @@ services:
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_COLLECTION=${MONGO_COLLECTION}
     networks:
-      - bridge
+      - deepspeech_bridge
+  tts:
+    build:
+      context: tts/.
+    container_name: DEEPSPEECH_API
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    env_file:
+      - "./.env"
+    environment:
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_COLLECTION=${MONGO_COLLECTION}
+    networks:
+      - deepspeech_bridge
   mongo:
     image: mongo:latest
     container_name: MONGO_DB
@@ -31,8 +50,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     networks:
-      - bridge
+      - deepspeech_bridge
 
 networks:
-  bridge:
+  deepspeech_bridge:
     driver: bridge

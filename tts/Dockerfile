@@ -3,14 +3,9 @@ FROM python:3.10.9
 #Create and make the API folder the working directory
 WORKDIR /api
 
-#Copy all the files
-COPY . . 
-
-#create a temp folder to store the audio files
-RUN mkdir tts/sounds
-
-#Create a temp folder to store the audio files
-RUN mkdir stt/sounds
+#Copy the requirments and packages file
+COPY requirements.txt .
+COPY packages.txt .
 
 #upgrade pip
 RUN pip install --no-cache-dir --upgrade pip
@@ -24,9 +19,18 @@ RUN pip install --no-cache-dir -r requirements.txt
 #install the package using apt with packages.txt file
 RUN apt-get update && cat packages.txt | xargs apt-get install -y
 
+#Install Google Protobuf
+RUN pip install protobuf==4.21.1
+
 #Expose the port
 EXPOSE 8000
 
+#Copy all the files
+COPY . . 
+
+#create a temp folder to store the audio files
+RUN mkdir tts/sounds
+
 #Run the app
-CMD ["uvicorn", "main:api", "--host=0.0.0.0", "--port=8000", "--reload"]
+CMD ["uvicorn", "api:api", "--host=0.0.0.0", "--port=8000", "--reload"]
 

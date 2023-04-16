@@ -1,15 +1,50 @@
+from TTS.utils.synthesizer import Synthesizer
 import os
+from pydantic import BaseModel
 
 
-class generate:
-    sound_dir = "tts/sounds"
-    file_id = len(os.listdir(sound_dir)) + 1
+class tts_response(BaseModel):
+    status_code : int = 10
+    error : str = None
 
-    
-    def __init__(self, text: str) -> None:
-        # Generate the audio file using the text-to-speech model
-        os.system(f'tts --text "{text}" --model_path tts/model.pth --encoder_path tts/SE_checkpoint.pth.tar --encoder_config_path tts/config_se.json --config_path tts/config.json --speakers_file_path tts/speakers.pth --speaker_wav tts/conditioning_audio.wav --out_path {self.sound_dir}/sound-{self.file_id}.wav')
 
-    @property
-    def file_path(self) -> str:
-        return str(self.sound_dir + self.file_id)
+class generator:
+    MAX_TXT_LEN : str = 1000#os.getenv('TTS_MAX_TXT_LEN')
+    SOUNDS_DIR :str = "tts/sounds"
+    MODEL_PATH :str = "./tts/model.pth"
+    CONFIG_PATH :str = "tts/config.json"
+    SPEAKERS_PATH :str = "tts/speakers.pth"
+    ENCODER_CHECKPOINT_PATH :str = "tts/SE_checkpoint.pth.tar"
+    ENCODER_CONFIG :str = "tts/config_se.json"
+    SPEAKER_WAV= "tts/conditioning_audio.wav"
+    response = tts_response()
+
+
+    def __init__(self, text) -> None:
+        #Initiate the tts response
+        if len(text) > self.MAX_TXT_LEN:
+            text = text[:self.MAX_TXT_LEN] #cut off text to the limit
+            self.response.status_code = 10
+            self.response.error = f"Input text was cutoff since it went over the {self.MAX_TXT_LEN} character limit."
+        
+        self.audio_bytes : bytes = self.audio_synthesizer().tts(text, speaker_wav=self.SPEAKER_WAV)
+
+        #save the audio
+        self.save_audio()
+
+    def audio_synthesizer(self):
+        return Synthesizer(self.MODEL_PATH,
+            self.CONFIG_PATH,
+            tts_speakers_file=self.SPEAKERS_PATH,
+            encoder_checkpoint=self.ENCODER_CHECKPOINT_PATH,
+            encoder_config=self.ENCODER_CONFIG)
+
+    def save_audio(self) -> str:
+        file_id = len(os.listdir(self.SOUNDS_DIR)) + 1
+        file_path = f"{self.SOUNDS_DIR}/sound-{file_id}.wav"
+
+        with open(file_path, "wb+") as audio_file:
+            audio_file.write(self.audio_bytes)
+
+        self.file_path = file_path
+
