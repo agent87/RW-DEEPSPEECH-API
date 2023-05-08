@@ -4,9 +4,12 @@ from pydantic import BaseModel
 import os
 from pymongo import MongoClient
 #Import packages
-from stt.transcribe import transcriber
-from tts.generator import generator
-from utils.model import logger
+from transcribe import transcriber
+import pymongo
+from datetime import datetime
+import uuid
+from time import time
+#Import packages
 
 
 
@@ -25,6 +28,32 @@ class db_credentials(BaseModel):
 db = db_credentials()
 
 client = MongoClient(f'mongodb://{db.username}:{db.password}@{db.host}:{db.port}/')
+
+class logger:
+    log = {}
+    def __init__(self, service: str, mode : str) -> None:
+        self.log['service'] = service
+        self.log['mode'] = mode
+        self.log['time'] = datetime.now()
+        self.log['feedback_token'] = str(uuid.uuid4()) 
+        self.log['duration'] = time()
+
+    def commit_to_db(self, client):
+        try:
+            client[db.database][db.collection].insert_one(self.log)
+        except pymongo.errors.ServerSelectionTimeoutError:
+            pass
+
+    def update(self, total_words:str = None, audio_size:int = None, file_name:str = None, text:str = None):
+        self.log['duration'] = time() - self.log['duration']
+        if total_words:
+            self.log['total_words'] = total_words
+        if audio_size:
+            self.log['audio_size'] = audio_size
+        if file_name:
+            self.log['file_name'] = file_name
+        if text:
+            self.log['text'] = text
 
 
 
@@ -59,28 +88,6 @@ async def transcribe_speech(audio_bytes: bytes = File()):
 
     return {"sentences": speech.transcription}
 
-
-@api.post("/generate")
-async def tts(request: Request, text: Text) -> FileResponse:
-    """
-    This function generates an audio file from the given text using a text-to-speech model.
-    The generated audio file is returned as a response.
-    """
-    # Initialize the logger
-    log = logger("tts", "http")
-
-    # Extract the text from the input
-    text = text.text
-
-    # Generate the audio file using the text-to-speech model
-    audio = generator(text)
-
-    # Log the request and commit it to the database
-    log.update(total_words=len(text), text=text)
-    log.commit_to_db(client)
-
-    # Return the generated audio file as a response
-    return FileResponse(audio.file_path, media_type="audio/wav")
 
 
 # #WebSocket Section

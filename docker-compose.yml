@@ -4,9 +4,9 @@ services:
   stt:
     build:
       context: stt/.
-    container_name: DEEPSPEECH_API
+    container_name: STT
     ports:
-      - "8000:8000"
+      - "8200:8000"
     depends_on:
       - mongo
     env_file:
@@ -23,9 +23,9 @@ services:
   tts:
     build:
       context: tts/.
-    container_name: DEEPSPEECH_API
+    container_name: TTS
     ports:
-      - "8000:8000"
+      - "8201:8000"
     depends_on:
       - mongo
     env_file:
