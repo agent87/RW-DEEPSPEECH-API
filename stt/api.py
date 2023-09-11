@@ -1,8 +1,9 @@
-from fastapi import FastAPI, Request, File, WebSocket
+from fastapi import FastAPI, Request, File, WebSocket, Form, requests, UploadFile
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import os
 from pymongo import MongoClient
+from typing import Annotated
 #Import packages
 from transcribe import transcriber
 import pymongo
@@ -10,6 +11,7 @@ from datetime import datetime
 import uuid
 from time import time
 #Import packages
+
 
 
 
@@ -76,10 +78,11 @@ def get_token(request: Request):
 
 
 @api.post("/transcribe")
-async def transcribe_speech(audio_bytes: bytes = File()):
+async def transcribe_speech(audio_bytes: bytes = File(...), request: Request = Form(...)):
     #log the request
     log =  logger("stt", "http")
     #initiate the transcription
+    audio = Request.form
     speech  = transcriber(audio_bytes)
     #update the log
     log.update(total_words=len(speech.transcription), text=speech.transcription)

@@ -39,12 +39,12 @@ class generator:
             encoder_checkpoint=self.ENCODER_CHECKPOINT_PATH,
             encoder_config=self.ENCODER_CONFIG)
 
-    def save_audio(self, audio_bytes) -> str:
+    def save_audio(self) -> str:
         file_id = len(os.listdir(self.SOUNDS_DIR)) + 1
         file_path = f"{self.SOUNDS_DIR}/sound-{file_id}.wav"
 
         with open(file_path, "wb+") as audio_file:
-            audio_file.write(self.audio_bytes)
+            self.audio_synthesizer().save_wav(self.audio_bytes, audio_file)
 
         self.file_path = file_path
 
