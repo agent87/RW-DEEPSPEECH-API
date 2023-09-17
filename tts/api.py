@@ -63,16 +63,6 @@ class AudioBytes(BaseModel):
 
 
 
-@api.post('/register') #route
-def register(request: Request): #serving function
-    return "User Registration Endpoint"
-
-
-@api.post('/token') 
-def get_token(request: Request):
-    return "Here is your token"
-
-
 @api.post("/generate")
 async def tts(request: Request, text: Text) -> FileResponse:
     """

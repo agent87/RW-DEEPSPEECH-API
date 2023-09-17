@@ -16,7 +16,19 @@ from time import time
 
 
 
-api = FastAPI()  #instance
+api = FastAPI(
+    title="Speech to Text API",
+    summary="A simple API that transcribes speech to text",
+    version="1.0.1",
+    contact={
+        "name": "Arnaud Kayonga",
+        "url": "http://kayarn.co/contact/",
+        "email": "arnauldkayonga1@gmail.com",
+    },
+    license_info={
+        "name": "GNU GENERAL PUBLIC LICENSE",
+    },
+)
 
 ##Mongo DB
 class db_credentials(BaseModel):
@@ -66,15 +78,6 @@ class AudioBytes(BaseModel):
     data: bytes
 
 
-
-@api.post('/register') #route
-def register(request: Request): #serving function
-    return "User Registration Endpoint"
-
-
-@api.post('/token') 
-def get_token(request: Request):
-    return "Here is your token"
 
 
 @api.post("/transcribe")
