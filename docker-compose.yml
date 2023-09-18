@@ -19,7 +19,7 @@ services:
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_COLLECTION=${MONGO_COLLECTION}
     networks:
-      - deepspeech_bridge
+      - deepspeech
   tts:
     build:
       context: tts/.
@@ -38,7 +38,7 @@ services:
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_COLLECTION=${MONGO_COLLECTION}
     networks:
-      - deepspeech_bridge
+      - deepspeech
   nginx:
     image: nginx:latest
     container_name: nginx
@@ -47,13 +47,13 @@ services:
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
-      - deepspeech_bridge  
+      - deepspeech  
     depends_on:
       - stt
       - tts
   mongo:
     image: mongo:latest
-    container_name: MONGO_DB
+    container_name: mongo_db
     ports:
       - "27017:27017"
     env_file:
@@ -62,8 +62,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     networks:
-      - deepspeech_bridge
+      - deepspeech
 
 networks:
-  deepspeech_bridge:
-    driver: bridge
+  deepspeech:
