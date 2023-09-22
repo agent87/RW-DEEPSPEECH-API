@@ -81,11 +81,10 @@ class AudioBytes(BaseModel):
 
 
 @api.post("/transcribe")
-async def transcribe_speech(audio_bytes: bytes = File(...), request: Request = Form(...)):
+async def transcribe_speech(audio_bytes: bytes = File(...)):
     #log the request
     log =  logger("stt", "http")
     #initiate the transcription
-    audio = Request.form
     speech  = transcriber(audio_bytes)
     #update the log
     log.update(total_words=len(speech.transcription), text=speech.transcription)

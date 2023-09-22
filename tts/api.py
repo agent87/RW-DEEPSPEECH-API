@@ -83,7 +83,7 @@ async def tts(request: Request, text: Text) -> FileResponse:
     log.commit_to_db(client)
 
     # Return the generated audio file as a response
-    return FileResponse(audio.file_path, media_type="audio/wav")
+    return FileResponse(audio.file_path, media_type="application/octet-stream", filename="audio.wav")
 
 
 # #WebSocket Section
