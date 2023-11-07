@@ -7,6 +7,8 @@ services:
     container_name: stt
     expose:
       - "8000"
+    volumes:
+      - ./stt:/api
     depends_on:
       - mongo
     env_file:
@@ -18,8 +20,6 @@ services:
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_COLLECTION=${MONGO_COLLECTION}
-    volumes:
-      - ./stt:/api
     networks:
       - deepspeech
   tts:
@@ -28,6 +28,8 @@ services:
     container_name: tts
     expose:
       - "8000"
+    volumes:
+      - ./tts:/api
     depends_on:
       - mongo
     env_file:
@@ -39,30 +41,20 @@ services:
       - MONGO_PORT=${MONGO_PORT}
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_COLLECTION=${MONGO_COLLECTION}
-    volumes:
-      - ./tts:/api
     networks:
       - deepspeech
   nginx:
     image: nginx:latest
     container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       - deepspeech  
     depends_on:
       - stt
       - tts
-    ports:
-      - 80:80
-      - 443:443
-    restart: always
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./certbot/www/:/var/www/certbot/:ro
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
   mongo:
     image: mongo:latest
     container_name: mongo_db
