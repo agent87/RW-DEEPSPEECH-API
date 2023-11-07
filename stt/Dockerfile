@@ -25,11 +25,11 @@ RUN pip install protobuf==4.21.1
 #Expose the port
 EXPOSE 8000
 
-#Copy all the files
-COPY . . 
-
 #Create a temp folder to store the audio files
 RUN mkdir sounds
+
+#Copy all the files
+COPY . . 
 
 #Run the app
 CMD ["uvicorn", "api:api", "--host=0.0.0.0", "--port=8000", "--reload"]

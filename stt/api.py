@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, File, WebSocket, Form, requests, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 import os
 from pymongo import MongoClient
@@ -82,7 +82,7 @@ class AudioBytes(BaseModel):
 
 
 @api.post("/transcribe")
-async def transcribe_speech(audio_bytes: bytes = File(...)):
+async def transcribe_speech(audio_bytes: bytes = File(...)) -> JSONResponse:
     #log the request
     log =  logger("stt", "http")
     #initiate the transcription

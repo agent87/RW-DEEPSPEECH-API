@@ -25,7 +25,7 @@ EXPOSE 8000
 COPY . . 
 
 #create a temp folder to store the audio files
-RUN mkdir sounds
+RUN mkdir /sounds
 
 #Run the app
 CMD ["uvicorn", "api:api", "--host=0.0.0.0", "--port=8000", "--reload"]
