@@ -57,9 +57,8 @@ class logger:
 
 class Text(BaseModel):
     text : str
+ 
 
-class AudioBytes(BaseModel):
-    data: bytes
 
 
 

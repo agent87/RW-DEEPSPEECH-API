@@ -81,7 +81,7 @@ class AudioBytes(BaseModel):
 
 
 
-@api.post("/transcribe")
+@api.post("/transcribe", response_model=JSONResponse, tags=["Speech to Text", "Transcribe", "Speech Recognition", "STT"])
 async def transcribe_speech(audio_bytes: bytes = File(...)) -> JSONResponse:
     #log the request
     log =  logger("stt", "http")

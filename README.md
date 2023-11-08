@@ -80,15 +80,21 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+Welcome to the Kinyarwanda DeepSpeech API repository! This comprehensive guide provides an in-depth exploration of this powerful end-to-end solution for speech processing in Kinyarwanda. With our DeepSpeech API, you can effortlessly convert spoken Kinyarwanda into text and transform text into natural-sounding Kinyarwanda speech.
+Introduction
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+In today's digital age, seamless communication across diverse languages is crucial. Our DeepSpeech API for Kinyarwanda bridges language barriers by offering robust speech-to-text and text-to-speech capabilities tailored specifically for the Kinyarwanda language. Whether you are building interactive voice applications, transcribing audio content, or enhancing accessibility features, our API empowers you to achieve your goals with ease.
+Key Features
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+    Accurate Speech-to-Text Conversion: Leverage our advanced deep learning models to accurately transcribe spoken Kinyarwanda into written text. Our models have been trained on extensive Kinyarwanda speech datasets, ensuring high accuracy and reliability.
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
+    Natural Text-to-Speech Synthesis: Generate lifelike Kinyarwanda speech from textual input. Our text-to-speech engine produces natural intonation, rhythm, and pronunciation, creating a seamless and engaging user experience.
+
+    End-to-End Processing: Perform both speech-to-text and text-to-speech operations within a single API, streamlining your workflow and saving development time.
+
+    Customization: Fine-tune our models to adapt them to specific accents, dialects, or domains, ensuring optimal performance for your unique use case.
+
+    Scalability: Our API is designed to handle a high volume of requests, making it suitable for applications ranging from small-scale projects to large-scale enterprise solutions.
 
 
 
@@ -119,7 +125,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-It is highly recomended to run the application in docker container to avoid dependency erros but it also possible to run it without docker
+It is highly recomended to run the application in docker container to avoid dependency errors but it also possible to run it without docker
 In terms of specifications needed
 
 * With Docker:
@@ -138,7 +144,11 @@ Follow the steps bellow to set up your project on server/machine running docker.
    ```sh
    git clone https://github.com/agent87/RW-DEEPSPEECH-API.git
    ```
-2. create an environment file named as ".env" and paste the variables
+2. Pull the large files with git lfs. Make sure you have git lfs installed or refer to [git lfs](https://git-lfs.github.com/) for installation instructions
+   ```sh
+   git lfs pull
+   ```
+2. create an environment file named as ".env" with "touch .env" and paste the variables. Make sure the file is in the root directory of the project
     ```sh
     MONGO_USERNAME=myuser
     MONGO_PASSWORD=mypassword
@@ -153,7 +163,7 @@ Follow the steps bellow to set up your project on server/machine running docker.
    docker compose build
    ```
    Note: if you have an earlier docker version use "docker-compose build"
-4. Start the docker containers
+4. Start the docker containers and let the magic begin
    ```sh
    docker compose up
    ```
@@ -164,6 +174,16 @@ Follow the steps bellow to set up your project on server/machine running docker.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+### Speech to Text (STT) usage
+```sh
+curl -X POST "http://server_url/stt" -H  "accept: application/json" -H  "Content-Type: multipart/form-data" -F "file=@/path/to/audio/file"
+```
+
+### Text to Speech (TTS) usage
+```sh
+curl -X POST "http://server_url/tts" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{\"text\":\"string\"}"
+``` 
 
 
 
@@ -176,10 +196,13 @@ Follow the steps bellow to set up your project on server/machine running docker.
 
 - [x] Add database
 - [ ] Add Authentication
-- [ ] Additional testing
-- [ ] 
+- [ ] Testing
+- [ ] CI/CD Setup tutorial
+- [ ] Automated audio conversion
+- [ ] OpenAPI Documentation/ Swagger
+- [ ] Usage Feedback incorporation into the readme.MD
 
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/agent87/RW-DEEPSPEECH-API/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -206,7 +229,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GNU GENERAL PUBLIC LICENSE. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -215,7 +238,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Arnaud Kayonga - [@kayarn_](https://twitter.com/kayarn) - arnauldkayonga1@gmail.com
+Arnaud Kayonga - [@kayarn](https://www.kayarn.co) - arnauldkayonga1@gmail.com
 
 Project Link: [https://github.com/agent87/RW-DEEPSPEECH-API](https://github.com/agent87/RW-DEEPSPEECH-API)
 

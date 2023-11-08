@@ -1,0 +1,9 @@
+# This is a YAML file
+key1: value1
+key2: value2
+key3:
+  - item1
+  - item2
+key4:
+  subkey1: subvalue1
+  subkey2: subvalue2
