@@ -37,9 +37,9 @@ class logger:
         self.log['feedback_token'] = str(uuid.uuid4()) 
         self.log['duration'] = time()
 
-    def commit_to_db(self, client):
+    async def commit_to_db(self, client):
         try:
-            client[db.database][db.collection].insert_one(self.log)
+            await client[db.database][db.collection].insert_one(self.log)
         except pymongo.errors.ServerSelectionTimeoutError:
             pass
 
@@ -79,7 +79,7 @@ async def tts(request: Request, text: Text) -> FileResponse:
 
     # Log the request and commit it to the database
     log.update(total_words=len(text), text=text)
-    log.commit_to_db(client)
+    log.commit_to_db(client) #async function
 
     # Return the generated audio file as a response
     return FileResponse(audio.file_path, media_type="application/octet-stream", filename="audio.wav")

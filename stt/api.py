@@ -98,7 +98,7 @@ async def transcribe_speech(audio_bytes: bytes = File(...)) -> JSONResponse:
     log = logger("stt", "http")
 
     # start the timer
-    start_time = await time()
+    start_time = time()
     # initiate the transcription
     speech = transcriber(audio_bytes)
     # end the timer
