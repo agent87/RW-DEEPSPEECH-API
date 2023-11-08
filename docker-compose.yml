@@ -13,13 +13,6 @@ services:
       - mongo
     env_file:
       - "./.env"
-    environment:
-      - MONGO_USERNAME=${MONGO_USERNAME}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_PORT=${MONGO_PORT}
-      - MONGO_DATABASE=${MONGO_DATABASE}
-      - MONGO_COLLECTION=${MONGO_COLLECTION}
     networks:
       - deepspeech
   tts:
@@ -34,22 +27,19 @@ services:
       - mongo
     env_file:
       - "./.env"
-    environment:
-      - MONGO_USERNAME=${MONGO_USERNAME}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_HOST=${MONGO_HOST}
-      - MONGO_PORT=${MONGO_PORT}
-      - MONGO_DATABASE=${MONGO_DATABASE}
-      - MONGO_COLLECTION=${MONGO_COLLECTION}
     networks:
       - deepspeech
   nginx:
     image: nginx:latest
+    # build:
+    #   context: nginx/.
     container_name: nginx
     ports:
       - "80:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    env_file:
+      - "./.env"
     networks:
       - deepspeech  
     depends_on:
@@ -57,14 +47,11 @@ services:
       - tts
   mongo:
     image: mongo:latest
-    container_name: mongo_db
+    container_name: mongo_db_deepspeech
     ports:
       - "27017:27017"
     env_file:
       - "./.env"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     networks:
       - deepspeech
 

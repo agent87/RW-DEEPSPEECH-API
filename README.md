@@ -98,6 +98,12 @@ Key Features
 
 
 
+### [Speech to Text Model by Nvidia](https://huggingface.co/nvidia/stt_rw_conformer_ctc_large)
+This model transcribes speech into lowercase Latin alphabet including spaces, and apostroph, and is trained on around 2000 hours of Kinyarwanda speech data by Nvidia. It is a non-autoregressive "large" variant of Conformer, with around 120 million parameters. See the [model architecture](https://huggingface.co/nvidia/stt_rw_conformer_ctc_large#model-architecture) and NeMo documentation for complete architecture details. 
+
+### [Text to Speech Model by Digital Umuganda](https://huggingface.co/DigitalUmuganda/Kinyarwanda_YourTTS)
+This model is an end-to-end deep-learning-based Kinyarwanda Text-to-Speech (TTS) developed by Digital Umuganda. Due to its zero-shot learning capabilities, new voices can be introduced with 1min speech. The model was trained using the Coqui's TTS library, and the YourTTS[1] architecture. It was trained on 67 hours of Kinyarwanda bible data, for 100 epochs.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -120,8 +126,7 @@ Key Features
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+This is a simpple implmentation requiring few lines of code to run.
 
 ### Prerequisites
 
@@ -174,6 +179,9 @@ Follow the steps bellow to set up your project on server/machine running docker.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+
+If you happen not to have speciazed hardware(GPU) you can run the application on Google Colab. Use the following link to open the notebook and follow the instructions in the notebook to run the application.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1RBi0M27eMuRq9InGDpK9nZlV0kem4iCt?usp=sharing)
 
 ### Speech to Text (STT) usage
 ```sh
@@ -251,14 +259,9 @@ Project Link: [https://github.com/agent87/RW-DEEPSPEECH-API](https://github.com/
 
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+* [Nvidia STT RW Conformer CTC Large](https://huggingface.co/nvidia/stt_rw_conformer_ctc_large)
+* [Digital Umuganda Kinyarwanda YourTTS](https://huggingface.co/DigitalUmuganda/Kinyarwanda_YourTTS)
+* [TTS Paper](https://arxiv.org/pdf/2112.02418.pdf)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
