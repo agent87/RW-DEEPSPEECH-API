@@ -1,9 +1,80 @@
-# This is a YAML file
-key1: value1
-key2: value2
-key3:
-  - item1
-  - item2
-key4:
-  subkey1: subvalue1
-  subkey2: subvalue2
+openapi: 3.0.0
+info:
+  title: RW_DEEPSPEECH_API
+  description: >-
+    This is a collection of postman request to the deepspeech api which also
+    include the websockets endpoints.
+  version: 1.0.0
+servers:
+  - url: http://{{base_url}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  /tts/generate:
+    post:
+      tags:
+        - default
+      summary: TEXT TO SPEECH
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                text: Mwaramutseho, iri ni igerageza rya sisetumo ihimba ijwi
+      security:
+        - bearerAuth: []
+      responses:
+        undefined:
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: null
+  /stt/transcribe:
+    post:
+      tags:
+        - default
+      summary: SPEECH TO TEXT
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                audio_bytes:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: OK
+          headers:
+            Server:
+              schema:
+                type: number
+                example: nginx/1.25.3
+            Date:
+              schema:
+                type: string
+                example: Wed, 08 Nov 2023 16:12:10 GMT
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            Content-Length:
+              schema:
+                type: integer
+                example: '67'
+            Connection:
+              schema:
+                type: string
+                example: keep-alive
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                sentences: mwaramutse wili ni igerageza rya ssatom ihimba ijwe

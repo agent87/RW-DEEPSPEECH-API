@@ -131,21 +131,3 @@ async def transcribe_speech(audio_bytes: bytes = File(...)) -> JSONResponse:
 # #             f.write(audio_bytes.data)
 
 
-# # @api.websocket("/ws/generate")
-# # async def websocket_endpoint(websocket: WebSocket):
-# #     """
-# #     This function creates a WebSocket endpoint that accepts JSON messages containing a "text" field.
-# #     If the length of the "text" field exceeds 50 characters, it sends a message back to the client indicating that the data is too large.
-# #     Otherwise, it sends back the message text.
-# #     """
-# #     await websocket.accept()
-# #     while True:
-# #         try:
-# #             data = await websocket.receive_json()
-# #         except websocket.WebSocketDisconnect:
-# #             break
-# #         text = data.get("text", "")
-# #         if len(text) > 50:
-# #             await websocket.send_text("Data exceeds specified limit of 50 characters.")
-# #         else:
-# #             await websocket.send_text(f"Message text was: {text}")
