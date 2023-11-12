@@ -9,6 +9,7 @@ services:
       - "8000"
     volumes:
       - ./stt:/api
+      - ./utils:/api/utils
     depends_on:
       - mongo
     env_file:
@@ -23,6 +24,7 @@ services:
       - "8000"
     volumes:
       - ./tts:/api
+      - ./utils:/api/utils
     depends_on:
       - mongo
     env_file:
@@ -48,10 +50,13 @@ services:
   mongo:
     image: mongo:latest
     container_name: mongo_db_deepspeech
+    restart: always
     ports:
       - "27017:27017"
-    env_file:
-      - "./.env"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=Bingo123
+      - MONGO_INITDB_DATABASE=deepspeech
     networks:
       - deepspeech
 

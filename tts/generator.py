@@ -9,7 +9,7 @@ class tts_response(BaseModel):
 
 
 class TTS_MODEL(BaseModel):
-    MAX_TXT_LEN: str = 1000  # os.getenv('TTS_MAX_TXT_LEN')
+    MAX_TXT_LEN: str = os.getenv('TTS_MAX_TXT_LEN', 1000)
     SOUNDS_DIR: str = "sounds"
     MODEL_PATH: str = "./model.pth"
     CONFIG_PATH: str = "config.json"
@@ -32,7 +32,7 @@ engine = Synthesizer(
         )
 
 
-class generator:
+class Generator:
     MAX_TXT_LEN: str = 1000  # os.getenv('TTS_MAX_TXT_LEN')
     SOUNDS_DIR: str = "sounds"
     MODEL_PATH: str = "./model.pth"
@@ -50,9 +50,7 @@ class generator:
             self.response.status_code = 10
             self.response.error = f"Input text was cutoff since it went over the {self.MAX_TXT_LEN} character limit."
 
-        self.audio_bytes: bytes = engine.tts(
-            text, speaker_wav=self.SPEAKER_WAV
-        )
+        self.audio_bytes: bytes = engine.tts(text, speaker_wav=self.SPEAKER_WAV)
 
         # save the audio
         self.save_audio()

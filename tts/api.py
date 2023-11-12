@@ -8,7 +8,7 @@ from datetime import datetime
 import uuid
 from time import time
 #Import packages
-from generator import generator
+from generator import Generator
 
 
 
@@ -75,7 +75,7 @@ async def tts(request: Request, text: Text) -> FileResponse:
     text = text.text
 
     # Generate the audio file using the text-to-speech model
-    audio = generator(text)
+    audio = Generator(text)
 
     # Log the request and commit it to the database
     log.update(total_words=len(text), text=text)

@@ -8,7 +8,7 @@ hf_model = nemo_asr.models.EncDecRNNTBPEModel.from_pretrained(model_name="mbazaN
 
 
 
-class transcriber:
+class Transcriber:
     def __init__(self, audio_bytes : bytes) -> None:
         self.audio_bytes = audio_bytes
 
