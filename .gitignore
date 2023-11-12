@@ -130,6 +130,6 @@ dmypy.json
 
 
 #ignore the sounds directory
-sound*.wav
+
 bingo.py
 *.ipynb
