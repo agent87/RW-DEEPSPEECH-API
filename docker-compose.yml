@@ -62,3 +62,4 @@ services:
 
 networks:
   deepspeech:
+    driver: bridge

@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir cython
 
 #Install all the dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt  
 
 #Install Google Protobuf
 RUN pip install protobuf==4.21.1

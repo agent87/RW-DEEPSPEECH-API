@@ -49,7 +49,15 @@ async def transcribe_speech(audio_bytes: bytes = File(...)) -> JSONResponse:
     log = logger(service="stt")
 
     # initiate the transcription
-    speech = Transcriber(audio_bytes)
+    try:
+        speech = Transcriber(audio_bytes)
+    except:
+        return JSONResponse(
+            content={
+                "text": "Sorry, we could not transcribe your audio. Please try again",
+                "stats": log.log,
+            }
+        )
 
     # update the log
     log.update(total_words=len(speech.transcription.split(" ")), total_char=len(speech.transcription), text=speech.transcription, audio_size=len(audio_bytes))

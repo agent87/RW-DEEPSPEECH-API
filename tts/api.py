@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, File, WebSocket
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 import os
 from pymongo import MongoClient
@@ -9,50 +9,14 @@ import uuid
 from time import time
 #Import packages
 from generator import Generator
+from utils.model_sdk import logger
 
 
 
 
 api = FastAPI()  #instance
 
-##Mongo DB
-class db_credentials(BaseModel):
-    username : str = os.getenv('MONGO_USERNAME')
-    password : str = os.getenv('MONGO_PASSWORD')
-    host : str = os.getenv('MONGO_HOST')
-    port : str = os.getenv('MONGO_PORT')
-    database : str = os.getenv('MONGO_DATABASE')
-    collection : str = os.getenv("MONGO_COLLECTION")
 
-db = db_credentials()
-
-client = MongoClient(f'mongodb://{db.username}:{db.password}@{db.host}:{db.port}/')
-
-class logger:
-    log = {}
-    def __init__(self, service: str, mode : str) -> None:
-        self.log['service'] = service
-        self.log['mode'] = mode
-        self.log['time'] = datetime.now()
-        self.log['feedback_token'] = str(uuid.uuid4()) 
-        self.log['duration'] = time()
-
-    async def commit_to_db(self, client):
-        try:
-            await client[db.database][db.collection].insert_one(self.log)
-        except pymongo.errors.ServerSelectionTimeoutError:
-            pass
-
-    def update(self, total_words:str = None, audio_size:int = None, file_name:str = None, text:str = None):
-        self.log['duration'] = time() - self.log['duration']
-        if total_words:
-            self.log['total_words'] = total_words
-        if audio_size:
-            self.log['audio_size'] = audio_size
-        if file_name:
-            self.log['file_name'] = file_name
-        if text:
-            self.log['text'] = text
 
 
 class Text(BaseModel):
@@ -69,33 +33,29 @@ async def tts(request: Request, text: Text) -> FileResponse:
     The generated audio file is returned as a response.
     """
     # Initialize the logger
-    log = logger("tts", "http")
+    log = logger(service="tts")
 
     # Extract the text from the input
     text = text.text
 
     # Generate the audio file using the text-to-speech model
-    audio = Generator(text)
+    try:
+        audio = Generator(text)
+    except:
+        return JSONResponse(status_code=500,
+            content={
+                "text": "Sorry, we could not generate audio from your text. Please try again",
+                "stats": log.log,
+            }
+        )
 
     # Log the request and commit it to the database
     log.update(total_words=len(text), text=text)
-    log.commit_to_db(client) #async function
+    log.commit_to_db() #async function
 
     # Return the generated audio file as a response
     return FileResponse(audio.file_path, media_type="application/octet-stream", filename="audio.wav")
 
-
-# #WebSocket Section
-
-# # @api.websocket("/ws/transcribe")
-# # async def websocket_endpoint(websocket: WebSocket):
-# #     await websocket.accept()
-# #     while True:
-# #         audio_bytes = await websocket.receive_json(AudioBytes)
-# #         # Process the received audio bytes here
-# #         # Example: write the audio bytes to a file
-# #         with open("audio.wav", "ab") as f:
-# #             f.write(audio_bytes.data)
 
 
 # # @api.websocket("/ws/generate")
