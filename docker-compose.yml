@@ -40,6 +40,7 @@ services:
       - "80:80"
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docs/redoc-static.html:/usr/share/nginx/html/redoc-static.html
     env_file:
       - "./.env"
     networks:
