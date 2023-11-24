@@ -3,13 +3,14 @@ version: '3'
 services:
   stt:
     build:
-      context: stt/.
+      context: ./stt
     container_name: stt
     expose:
-      - "8000"
+      - 8000
     volumes:
-      - ./stt:/api
-      - ./utils:/api/utils
+      - ./stt/:/api/:ro
+      - ./utils/:/api/utils/:ro
+      - ./stt/sounds/:/api/sounds/:rw
     depends_on:
       - mongo
     env_file:
@@ -18,13 +19,14 @@ services:
       - deepspeech
   tts:
     build:
-      context: tts/.
+      context: ./tts
     container_name: tts
     expose:
-      - "8000"
+      - 8000
     volumes:
-      - ./tts:/api
-      - ./utils:/api/utils
+      - ./tts/:/api/:ro
+      - ./utils/:/api/utils/:ro
+      - ./stt/sounds/:/api/sounds/:rw
     depends_on:
       - mongo
     env_file:
@@ -33,14 +35,13 @@ services:
       - deepspeech
   nginx:
     image: nginx:latest
-    # build:
-    #   context: nginx/.
-    container_name: nginx
+    container_name: nginx_deepspeech
     ports:
-      - "80:80"
+      - 80:80
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./docs/redoc-static.html:/usr/share/nginx/html/redoc-static.html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docs/redoc-static.html:/usr/share/nginx/html/redoc-static.html:ro
+      - /etc/letsencrypt/:/etc/letsencrypt/:ro
     env_file:
       - "./.env"
     networks:
@@ -53,11 +54,9 @@ services:
     container_name: mongo_db_deepspeech
     restart: always
     ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=Bingo123
-      - MONGO_INITDB_DATABASE=deepspeech
+      - 27017:27017
+    env_file:
+      - "./.env"
     networks:
       - deepspeech
 

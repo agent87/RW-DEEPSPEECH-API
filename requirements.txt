@@ -8,3 +8,5 @@ pytest==7.2.1
 httpx==0.23.3
 websockets==10.4
 pymongo==4.3.3
+python-jose[cryptography]
+passlib[bcrypt]
