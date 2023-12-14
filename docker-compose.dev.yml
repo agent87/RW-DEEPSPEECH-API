@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  stt:
+    build:
+      context: ./stt
+    container_name: stt
+    expose:
+      - 8000
+    volumes:
+      - ./stt/:/api/:ro
+      - ./utils/:/api/utils/:ro
+      - ./stt/sounds/:/api/sounds/:rw
+    depends_on:
+      - mongo
+    env_file:
+      - "./.env"
+    networks:
+      - deepspeech
+  tts:
+    build:
+      context: ./tts
+    container_name: tts
+    expose:
+      - 8000
+    volumes:
+      - ./tts/:/api/:ro
+      - ./utils/:/api/utils/:ro
+      - ./stt/sounds/:/api/sounds/:rw
+    depends_on:
+      - mongo
+    env_file:
+      - "./.env"
+    networks:
+      - deepspeech
+  nginx:
+    image: nginx:latest
+    container_name: nginx_deepspeech
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docs/redoc-static.html:/usr/share/nginx/html/redoc-static.html:ro
+      - /etc/letsencrypt/:/etc/letsencrypt/:ro
+    env_file:
+      - "./.env"
+    networks:
+      - deepspeech  
+    depends_on:
+      - stt
+      - tts
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db_deepspeech
+    restart: always
+    ports:
+      - 27017:27017
+    env_file:
+      - "./.env"
+    networks:
+      - deepspeech
+
+networks:
+  deepspeech:
+    driver: bridge

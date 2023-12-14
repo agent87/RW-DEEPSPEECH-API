@@ -139,6 +139,9 @@ In terms of specifications needed
 * Without Docker:
     - RAM >= 2GB free/spare
 
+### Setup SSL Certificates on Server
+
+
 
 ### Installation with docker
 
@@ -155,12 +158,19 @@ Follow the steps bellow to set up your project on server/machine running docker.
    ```
 2. create an environment file named as ".env" with "touch .env" and paste the variables. Make sure the file is in the root directory of the project
     ```sh
-    MONGO_USERNAME=myuser
-    MONGO_PASSWORD=mypassword
-    MONGO_HOST=localhost
+    MONGO_INITDB_ROOT_USERNAME="admin"
+    MONGO_INITDB_ROOT_PASSWORD="Bingo123"
+    MONGO_HOST="mongo"
     MONGO_PORT=27017
-    MONGO_DATABASE=feedback
-    MONGO_COLLECTION=logs
+    MONGO_INITDB_DATABASE="Inference"
+    MONGO_STT_COLLECTION="STT_INFERENCE_LOGS"
+    MONGO_TTS_COLLECTION="TTS_INFERENCE_LOGS"
+    MAX_SPEECH_AUDIO_FILE_SIZE=1000
+    TTS_MAX_TXT_LEN=1000
+    LOG_LEVEL="INFO"
+    PYTHONUNBUFFERED=1
+    DOMAIN=<Replace your DOMAIN here>
+    SERVER_IP_ADDRESS=<Replace your SERVER_IP_ADDRESS here>
     ```
     NOTE: For security purposes, make sure to change the variables above!
 3. build the docker image

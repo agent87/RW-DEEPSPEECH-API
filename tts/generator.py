@@ -5,11 +5,11 @@ from pydantic import BaseModel
 
 class tts_response(BaseModel):
     status_code: int = 10
-    error: str = None
+    error: str
 
 
 class TTS_MODEL(BaseModel):
-    MAX_TXT_LEN: str = os.getenv('TTS_MAX_TXT_LEN', 1000)
+    MAX_TXT_LEN: int = os.getenv('TTS_MAX_TXT_LEN', 1000)
     SOUNDS_DIR: str = "sounds"
     MODEL_PATH: str = "./model.pth"
     CONFIG_PATH: str = "config.json"
@@ -33,7 +33,7 @@ engine = Synthesizer(
 
 
 class Generator:
-    MAX_TXT_LEN: str = 1000  # os.getenv('TTS_MAX_TXT_LEN')
+    MAX_TXT_LEN: int = 1000  # os.getenv('TTS_MAX_TXT_LEN')
     SOUNDS_DIR: str = "sounds"
     MODEL_PATH: str = "./model.pth"
     CONFIG_PATH: str = "config.json"
@@ -59,7 +59,7 @@ class Generator:
 
     def save_audio(self) -> str:
         file_id = len(os.listdir(self.SOUNDS_DIR)) + 1
-        file_path = f"{self.SOUNDS_DIR}/sound-{file_id}.wav"
+        file_path : str = f"{self.SOUNDS_DIR}/sound-{file_id}.wav"
 
         with open(file_path, "wb+") as audio_file:
             engine.save_wav(self.audio_bytes, audio_file)
