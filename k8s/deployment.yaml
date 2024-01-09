@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stt-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stt
+  template:
+    metadata:
+      labels:
+        app: stt
+    spec:
+      containers:
+      - name: stt
+        image: arnauldkayonga1/stt_rw:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: stt-volume
+          mountPath: /api
+          readOnly: true
+        - name: utils-volume
+          mountPath: /api/utils
+          readOnly: true
+        - name: sounds-volume
+          mountPath: /api/sounds
+          readOnly: false
+      env:
+        - name: MONGO_URI
+          value: "mongodb://mongo:27017/Inference"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tts-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tts
+  template:
+    metadata:
+      labels:
+        app: tts
+    spec:
+      containers:
+      - name: tts
+        image: arnauldkayonga1/tts_rw:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: tts-volume
+          mountPath: /api
+          readOnly: true
+        - name: utils-volume
+          mountPath: /api/utils
+          readOnly: true
+        - name: sounds-volume
+          mountPath: /api/sounds
+          readOnly: false
+      env:
+        - name: MONGO_URI
+          value: "mongodb://mongo:27017/Inference"
