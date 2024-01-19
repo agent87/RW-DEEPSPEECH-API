@@ -131,8 +131,6 @@ dmypy.json
 
 #ignore the sounds directory
 
-bingo.py
-*.ipynb
 
 
 #ignore sound files
