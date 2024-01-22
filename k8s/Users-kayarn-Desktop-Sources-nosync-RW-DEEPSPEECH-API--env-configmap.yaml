@@ -1,0 +1,21 @@
+apiVersion: v1
+data:
+  DOMAIN: <Replace your DOMAIN here>
+  LOG_LEVEL: INFO
+  MAX_SPEECH_AUDIO_FILE_SIZE: "1000"
+  MONGO_HOST: mongo
+  MONGO_INITDB_DATABASE: Inference
+  MONGO_INITDB_ROOT_PASSWORD: Bingo123
+  MONGO_INITDB_ROOT_USERNAME: admin
+  MONGO_PORT: "27017"
+  MONGO_STT_COLLECTION: STT_INFERENCE_LOGS
+  MONGO_TTS_COLLECTION: TTS_INFERENCE_LOGS
+  PYTHONUNBUFFERED: "1"
+  SERVER_IP_ADDRESS: <Replace your SERVER_IP_ADDRESS here>
+  TTS_MAX_TXT_LEN: "1000"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongo-Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env

@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.31.2 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: mongo
+  name: mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: mongo
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.31.2 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/rw-deepspeech-api-deepspeech: "true"
+        io.kompose.service: mongo
+    spec:
+      containers:
+        - env:
+            - name: DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  key: DOMAIN
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  key: LOG_LEVEL
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MAX_SPEECH_AUDIO_FILE_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  key: MAX_SPEECH_AUDIO_FILE_SIZE
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_HOST
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_DATABASE
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_ROOT_USERNAME
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_PORT
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_STT_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_STT_COLLECTION
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_TTS_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_TTS_COLLECTION
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: PYTHONUNBUFFERED
+              valueFrom:
+                configMapKeyRef:
+                  key: PYTHONUNBUFFERED
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: SERVER_IP_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  key: SERVER_IP_ADDRESS
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: TTS_MAX_TXT_LEN
+              valueFrom:
+                configMapKeyRef:
+                  key: TTS_MAX_TXT_LEN
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+          image: mongo:latest
+          name: mongo-db-deepspeech
+          ports:
+            - containerPort: 27017
+              hostPort: 27017
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}
