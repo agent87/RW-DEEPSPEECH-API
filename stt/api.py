@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Depends
+from fastapi import FastAPI, File, Depends, Form
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
@@ -10,6 +10,22 @@ from transcribe import Transcriber
 from utils.database import logger
 
 # Import packages
+
+
+
+class AudioObject(BaseModel):
+    audio_bytes : Annotated[bytes, Form(...)]
+    audio_bytes_size : int | None 
+    auto_segment : bool = False
+
+
+
+class ResponseObj(BaseModel):
+    text : str 
+
+
+
+
 
 
 

@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yml
+    kompose.version: 1.31.2 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nginx
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: nginx
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yml
+        kompose.version: 1.31.2 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/rw-deepspeech-api-deepspeech: "true"
+        io.kompose.service: nginx
+    spec:
+      containers:
+        - env:
+            - name: DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  key: DOMAIN
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  key: LOG_LEVEL
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MAX_SPEECH_AUDIO_FILE_SIZE
+              valueFrom:
+                configMapKeyRef:
+                  key: MAX_SPEECH_AUDIO_FILE_SIZE
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_HOST
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_DATABASE
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_ROOT_PASSWORD
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_INITDB_ROOT_USERNAME
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_PORT
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_STT_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_STT_COLLECTION
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: MONGO_TTS_COLLECTION
+              valueFrom:
+                configMapKeyRef:
+                  key: MONGO_TTS_COLLECTION
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: PYTHONUNBUFFERED
+              valueFrom:
+                configMapKeyRef:
+                  key: PYTHONUNBUFFERED
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: SERVER_IP_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  key: SERVER_IP_ADDRESS
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+            - name: TTS_MAX_TXT_LEN
+              valueFrom:
+                configMapKeyRef:
+                  key: TTS_MAX_TXT_LEN
+                  name: Users-kayarn-Desktop-Sources-nosync-RW-DEEPSPEECH-API--env
+          image: nginx:latest
+          name: nginx-deepspeech
+          ports:
+            - containerPort: 80
+              hostPort: 80
+              protocol: TCP
+            - containerPort: 443
+              hostPort: 443
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/default.conf
+              name: nginx-claim0
+              readOnly: true
+            - mountPath: /usr/share/nginx/html/redoc-static.html
+              name: nginx-claim1
+              readOnly: true
+            - mountPath: /etc/letsencrypt
+              name: nginx-claim2
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: nginx-claim0
+          persistentVolumeClaim:
+            claimName: nginx-claim0
+            readOnly: true
+        - name: nginx-claim1
+          persistentVolumeClaim:
+            claimName: nginx-claim1
+            readOnly: true
+        - name: nginx-claim2
+          persistentVolumeClaim:
+            claimName: nginx-claim2
+            readOnly: true
+status: {}

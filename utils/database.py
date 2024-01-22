@@ -30,8 +30,6 @@ class logger:
 
     async def commit_to_db(self, collection):
         try:
-            var = 10
-            bingo = 20
             client[os.getenv("MONGO_INITDB_DATABASE")][os.getenv(f"{collection}")].insert_one(self.log)
             print("Log committed to database")
         except ServerSelectionTimeoutError as e:
